@@ -1,0 +1,21 @@
+[project]
+name = "trainur" 
+version = "0.0.0"
+description = "A simple Pytorch trainer"
+readme = "README.md"
+authors = [
+    { name = "Nam Kha Nguyen", email = "namkha1032@gmail.com" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+
+[project.urls]
+Homepage = "https://github.com/namkha1032/trainur"
+Repository = "https://github.com/namkha1032/trainur"
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["trainur"]
