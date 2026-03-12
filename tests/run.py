@@ -13,7 +13,7 @@ class CustomTrainer(Trainur):
 
 class CustomTester(CustomTrainer):
     test_var:any="some str"
-    def test(self):
+    def run_test(self):
         pass
 
 if __name__ == "__main__":
