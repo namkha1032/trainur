@@ -2,21 +2,21 @@ import torch
 from diffusers import FluxPipeline
 
 def main():
-
-    pipe = FluxPipeline.from_pretrained("black-forest-labs/FLUX.1-dev", torch_dtype=torch.bfloat16).to(device="cuda:0")
-    # pipe.enable_model_cpu_offload() #save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
-
-    prompt = "A cat holding a sign that says hello world"
-    image = pipe(
-        prompt,
-        height=1024,
-        width=1024,
-        guidance_scale=3.5,
-        num_inference_steps=50,
-        max_sequence_length=512,
-        generator=torch.Generator("cpu").manual_seed(0)
-    ).images[0]
-    image.save("flux-dev.png")
+    with torch.no_grad():
+        pipe = FluxPipeline.from_pretrained("black-forest-labs/FLUX.1-schnell", torch_dtype=torch.bfloat16).to(device="cuda:1")
+        # pipe.enable_model_cpu_offload() #save some VRAM by offloading the model to CPU. Remove this if you have enough GPU power
+        prompt = "A cat holding a sign that says hello world"
+        image = pipe(
+            prompt,
+            height=1024,
+            width=1024,
+            guidance_scale=3.5,
+            num_inference_steps=50,
+            max_sequence_length=512,
+            generator=torch.Generator("cpu").manual_seed(0)
+        ).images[0]
+        image.save("flux-dev.png")
+        pass
 
 
 if __name__ == "__main__":
