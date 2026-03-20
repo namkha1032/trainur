@@ -1,16 +1,17 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
+import setproctitle
 
 if __name__ == "__main__":
+    setproctitle.setproctitle("test-qwen")
     model_name = "Qwen/Qwen3-4B"
 
     # load the tokenizer and the model
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(
         model_name
-    )
+    ).to(device="cuda:1", dtype=torch.bfloat16)
 
-    quit()
     # prepare the model input
     prompt = "Give me a short introduction to large language model."
     messages = [
