@@ -1,5 +1,5 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
-
+import torch
 
 if __name__ == "__main__":
     model_name = "Qwen/Qwen3-4B"
@@ -8,8 +8,9 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModelForCausalLM.from_pretrained(
         model_name
-    ).to(device="cuda:1", dtype=torch.bfloat16)
+    )
 
+    quit()
     # prepare the model input
     prompt = "Give me a short introduction to large language model."
     messages = [
