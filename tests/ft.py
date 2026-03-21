@@ -1,6 +1,6 @@
 
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "2"
 
 from datasets import load_dataset
 
@@ -15,7 +15,8 @@ import torch
 import setproctitle
 from peft import (
     LoraConfig,
-    PeftModel
+    PeftModel,
+    get_peft_model
 )
 
 
@@ -25,6 +26,18 @@ def tokenize(batch):
         truncation=True,
         max_length=512,
     )
+
+
+
+def count_trainable(model):
+    total = 0
+    trainable = 0
+    for p in model.parameters():
+        total += p.numel()
+        if p.requires_grad:
+            trainable += p.numel()
+    result = f"Trainable {trainable} / {total} ({trainable/total*100:.4f})%"
+    return result
 
 if __name__ == "__main__":
 
@@ -36,17 +49,18 @@ if __name__ == "__main__":
     dataset = dataset.map(tokenize, batched=True, remove_columns=dataset.column_names)
     dataset = dataset.train_test_split(test_size=0.1)
     data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
-
     # set up lora
-    lora_config = LoraConfig(
-                r=4,
-                target_modules= "all-linear",
-                lora_alpha=8,
-                lora_dropout=0.05
-            )
-    model = PeftModel(model, lora_config)
-    model.print_trainable_parameters()
 
+    # lora_config = LoraConfig(
+    #             r=4,
+    #             target_modules= "all-linear",
+    #             lora_alpha=8,
+    #             lora_dropout=0.05
+    #         )
+    # model = PeftModel(model, lora_config)
+    # model.print_trainable_parameters()
+
+    print(count_trainable(model))
 
     training_args = TrainingArguments(
         output_dir="qwen3-finetuned",
@@ -73,4 +87,4 @@ if __name__ == "__main__":
     )
 
     trainer.train()
-    model.save_pretrained("")
+    # model.save_pretrained("")

@@ -1,8 +1,12 @@
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import torch
 import setproctitle
+from logab import log_wrap
+from fire import Fire
 
-if __name__ == "__main__":
+
+
+def run_trainer():
     setproctitle.setproctitle("test-qwen")
     model_name = "Qwen/Qwen3-4B"
 
@@ -44,3 +48,9 @@ if __name__ == "__main__":
 
     print("thinking content:", thinking_content)
     print("content:", content)
+
+
+
+if __name__ == "__main__":
+    with log_wrap():
+        Fire(run_trainer)
