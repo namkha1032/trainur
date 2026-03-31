@@ -1,7 +1,7 @@
 import os
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 # Import required libraries for fine-tuning
-from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments
+from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
 from trl import SFTTrainer, SFTConfig
 from datasets import load_dataset
 import torch
